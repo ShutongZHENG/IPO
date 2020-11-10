@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/IPO.iml" filepath="$PROJECT_DIR$/.idea/IPO.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/Projet_IPO/Projet_IPO.iml" filepath="$PROJECT_DIR$/Projet_IPO/Projet_IPO.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/Patie 1/Patie 1.iml" filepath="$PROJECT_DIR$/Patie 1/Patie 1.iml" />
+>>>>>>> origin/main
     </modules>
   </component>
 </project>
