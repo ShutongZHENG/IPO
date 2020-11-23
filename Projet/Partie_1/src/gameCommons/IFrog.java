@@ -7,18 +7,18 @@ public interface IFrog {
 	
 	/**
 	 * Donne la position actuelle de la grenouille
-	 * @return
+	 * @return la position case
 	 */
 	public Case getPosition();
 	
 	/**
-	 * Donne la direction de la grenouille, c'est à dire de son dernier mouvement 
-	 * @return
+	 * Donne la direction de la grenouille, c'est ? dire de son dernier mouvement 
+	 * @return la direction Direction
 	 */
 	public Direction getDirection();
 	
 	/**
-	 * Déplace la grenouille dans la direction donnée et teste la fin de partie
+	 * D?place la grenouille dans la direction donn?e et teste la fin de partie
 	 * @param key
 	 */
 	public void move(Direction key);

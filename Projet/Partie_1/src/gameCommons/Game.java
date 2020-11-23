@@ -16,7 +16,7 @@ public class Game {
 	public final int minSpeedInTimerLoops;
 	public final double defaultDensity;
 
-	// Lien aux objets utilisés
+	// Lien aux objets utilis?s
 	private IEnvironment environment;
 	private IFrog frog;
 	private IFroggerGraphics graphic;
@@ -30,7 +30,7 @@ public class Game {
 	 * @param height
 	 *            hauteur en cases
 	 * @param minSpeedInTimerLoop
-	 *            Vitesse minimale, en nombre de tour de timer avant déplacement
+	 *            Vitesse minimale, en nombre de tour de timer avant d?placement
 	 * @param defaultDensity
 	 *            densite de voiture utilisee par defaut pour les routes
 	 */
@@ -44,7 +44,7 @@ public class Game {
 	}
 
 	/**
-	 * Lie l'objet frog à la partie
+	 * Lie l'objet frog ? la partie
 	 * 
 	 * @param frog
 	 */
@@ -70,25 +70,31 @@ public class Game {
 	}
 
 	/**
-	 * Teste si la partie est perdue et lance un écran de fin approprié si tel
+	 * Teste si la partie est perdue et lance un ?cran de fin appropri? si tel
 	 * est le cas
 	 * 
 	 * @return true si le partie est perdue
 	 */
 	public boolean testLose() {
 		// TODO
-		return false;
+		if (!this.environment.isSafe(this.frog.getPosition()))
+			System.out.println("Lose");
+		return this.environment.isSafe(this.frog.getPosition());
 	}
 
 	/**
-	 * Teste si la partie est gagnee et lance un écran de fin approprié si tel
+	 * Teste si la partie est gagnee et lance un ?cran de fin appropri? si tel
 	 * est le cas
 	 * 
-	 * @return true si la partie est gagnée
+	 * @return true si la partie est gagn?e
 	 */
 	public boolean testWin() {
 		// TODO
-		return false;
+		if (this.environment.isWinningPosition(this.frog.getPosition()))
+			System.out.println("Win");
+		return this.environment.isWinningPosition(this.frog.getPosition());
+
+
 	}
 
 	/**
