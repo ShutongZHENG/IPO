@@ -79,7 +79,7 @@ public class Game {
 		// TODO
 		if (!this.environment.isSafe(this.frog.getPosition()))
 			System.out.println("Lose");
-		return this.environment.isSafe(this.frog.getPosition());
+		return !this.environment.isSafe(this.frog.getPosition());
 	}
 
 	/**
@@ -105,8 +105,13 @@ public class Game {
 		graphic.clear();
 		environment.update();
 		this.graphic.add(new Element(frog.getPosition(), Color.GREEN));
-		testLose();
-		testWin();
+
+		if (testLose()){
+			graphic.endGameScreen("Lose");
+		}else if (testWin()){
+			graphic.endGameScreen("Win");
+		}
+
 	}
 
 }
