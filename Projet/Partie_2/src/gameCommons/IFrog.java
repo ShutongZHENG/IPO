@@ -1,8 +1,5 @@
 package gameCommons;
 
-import util.Case;
-import util.Direction;
-
 public interface IFrog {
 	
 	/**
