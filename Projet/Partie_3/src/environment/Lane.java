@@ -14,7 +14,8 @@ public class Lane {
 	private boolean leftToRight;
 	private double density;
 	private int TDH; //tic d'horloge
-
+	private boolean Up = false;
+	private boolean Down = false;
 
 
 	// TODO : Constructeur(s)
@@ -26,8 +27,7 @@ public class Lane {
 		this.leftToRight = game.randomGen.nextBoolean();
 		this.density = density;
 
-
-		for(int i = 0; i < 2 * game.width; i++) {
+		for(int i = 0; i < 2 * game.width; ++i) {
 			Iterator iter = this.cars.iterator();
 
 			while(iter.hasNext()) {
@@ -37,6 +37,7 @@ public class Lane {
 
 			this.mayAddCar();
 		}
+
 	}
 
 	public void update() {
@@ -51,10 +52,22 @@ public class Lane {
 		// elle ne bougent pas
 
 		// A chaque tic d'horloge, une voiture peut ?tre ajout?e
+			if (this.Up){
+			for (int i =0; i<this.cars.size();i++)
+				this.cars.get(i).leftPosition.ord--;
+			this.Up = false;
+			}
 
+			else if (this.Down){
+				for (int i =0; i<this.cars.size();i++)
+					this.cars.get(i).leftPosition.ord++;
+				this.Down = false;
+			}
+
+
+		Iterator iter = this.cars.iterator();
 		if (this.TDH == this.speed) {
 			// les voitures bougent
-			Iterator iter = this.cars.iterator();
 			while(iter.hasNext()) {
 				Car t_car = (Car)iter.next();
 				t_car.move(true);
@@ -74,9 +87,6 @@ public class Lane {
 			this.mayAddCar();
 			this.TDH = 0;
 		}else{
-
-
-			Iterator iter = this.cars.iterator();
 			while(iter.hasNext()) {
 				Car t_car = (Car)iter.next();
 				t_car.move(false);
@@ -127,10 +137,13 @@ public class Lane {
 	}
 
 	private Case getFirstCase() {
-		if (leftToRight) {
-			return new Case(0, ord);
-		} else
-			return new Case(game.width - 1, ord);
+
+			if (leftToRight) {
+				return new Case(0, ord);
+			} else
+				return new Case(game.width - 1, ord);
+
+
 	}
 
 	private Case getBeforeFirstCase() {
@@ -140,7 +153,27 @@ public class Lane {
 			return new Case(game.width, ord);
 	}
 
+/**
+ * Change l'ord de lane
+ *
+ * @param  ord
+ *
+**/
+	public void ChangOrd(int ord){
+		if (this.ord-ord == 1){
+			this.Up = true;
+			this.Down = false;
+		}else{
+			this.Up = false;
+			this.Down = true;
+		}
 
+		this.ord = ord;
+	}
+
+	public int getOrd(){
+		return this.ord;
+	}
 
 
 
