@@ -50,7 +50,7 @@ public class Environment implements IEnvironment {
         System.out.println("ord : "+i);
         res = this.m_listLane.get(i).Bsecurise(c);
         if (!res){
-            this.score = i--;
+            this.score = i-2;
         }
         return (res);
     }
