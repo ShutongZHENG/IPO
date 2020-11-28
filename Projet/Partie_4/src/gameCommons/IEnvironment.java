@@ -23,7 +23,7 @@ public interface IEnvironment {
 	/**
 	 * Effectue une ?tape d'actualisation de l'environnement
 	 */
-	public void update();
+	public boolean update();
 
 	public boolean getBonus(Case c);
 	public int getScore();

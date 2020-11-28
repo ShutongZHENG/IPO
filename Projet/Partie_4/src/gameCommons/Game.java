@@ -82,7 +82,6 @@ public class Game {
 	public boolean testLose() {
 		// TODO
 		if (!this.environment.isSafe(this.frog.getPosition())){
-			//System.out.println("Lose");
 			this.one_run ++;
 		}
 
@@ -98,7 +97,6 @@ public class Game {
 	public boolean testWin() {
 		// TODO
 		if (this.environment.isWinningPosition(this.frog.getPosition())){
-			//System.out.println("Win");
 			this.one_run ++;
 		}
 		return this.environment.isWinningPosition(this.frog.getPosition());
@@ -177,14 +175,14 @@ public class Game {
 			this.frog.setPosition(new Case(t_absc,t_ord));
 		}
 		graphic.clear();
-		environment.update();
+		if (environment.update() && this.frog.getPosition().ord == 6){
+			int t_ord = this.frog.getPosition().ord;
+			int t_absc = this.frog.getPosition().absc+1;
+			this.frog.setPosition(new Case(t_absc,t_ord));
+		}
 
 
 		this.graphic.add(new Element(frog.getPosition(), Color.GREEN));
-
-
-
-
 
 		if (testLose()){
 

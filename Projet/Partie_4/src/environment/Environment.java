@@ -6,6 +6,7 @@ import gameCommons.IEnvironment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.PrimitiveIterator;
 
 public class Environment implements IEnvironment {
 		
@@ -14,18 +15,26 @@ public class Environment implements IEnvironment {
     private Game game;
     private Cases_speciales cs;
     private int score;
+    private LigneDeau LDE;
     public Environment(Game game){
         this.game = game;
         Lane t_lane = new Lane(game,0,0.0);
         this.m_Lane.add(t_lane);
 
         for(int i = 1; i < game.height - 1; i++) {
-            t_lane = new Lane(game,i,game.defaultDensity);
-            this.m_Lane.add(t_lane);
+            if (i==10||i==6){
+                t_lane = new Lane(game,i,0.0);
+                this.m_Lane.add(t_lane);
+            }else{
+                t_lane = new Lane(game,i,game.defaultDensity);
+                this.m_Lane.add(t_lane);
+            }
+
         }
         t_lane = new Lane(game,game.height-1,0.0);
         this.m_Lane.add(t_lane);
         this.cs = new Cases_speciales(this.game);
+        this.LDE = new LigneDeau(this.game);
         this.score=0;
 
     }
@@ -43,7 +52,7 @@ public class Environment implements IEnvironment {
             if (c.ord > this.score )
             this.score = c.ord;
         }
-        return this.cs.Bsecurise(c) && (this.m_Lane.get(c.ord)).Bsecurise(c);
+        return this.cs.Bsecurise(c) && (this.m_Lane.get(c.ord)).Bsecurise(c) && this.LDE.Bsecurise(c);
 
     }
 
@@ -70,14 +79,17 @@ public class Environment implements IEnvironment {
     /**
      * Effectue une étape d'actualisation de l'environnement
      */
-    public void update(){
+    public boolean update(){
         this.cs.update();
+        this.LDE.update();
+        boolean res = false;
         Iterator iter = this.m_Lane.iterator();
 
         while(iter.hasNext()) {
             Lane t_lane = (Lane)iter.next();
-            t_lane.update();
+            res = t_lane.update();
         }
+        return res;
 
 
 

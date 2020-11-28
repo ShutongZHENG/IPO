@@ -80,6 +80,8 @@ public class Cases_speciales {
 
         return true;
     }
+
+
     public boolean getBonus(Case c){
         for (int i =0 ; i<this.Cases_traverser.size(); i++){
 

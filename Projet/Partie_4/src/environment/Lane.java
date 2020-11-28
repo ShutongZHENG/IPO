@@ -37,9 +37,10 @@ public class Lane {
 
 			this.mayAddCar();
 		}
+
 	}
 
-	public void update() {
+	public boolean update() {
 
 		// TODO
 
@@ -51,7 +52,7 @@ public class Lane {
 		// elle ne bougent pas
 
 		// A chaque tic d'horloge, une voiture peut ?tre ajout?e
-
+		this.TDH++;
 		if (this.TDH == this.speed) {
 			// les voitures bougent
 			Iterator iter = this.cars.iterator();
@@ -73,6 +74,7 @@ public class Lane {
 			this.cars  = cp_cars;
 			this.mayAddCar();
 			this.TDH = 0;
+			return true;
 		}else{
 
 
@@ -81,9 +83,10 @@ public class Lane {
 				Car t_car = (Car)iter.next();
 				t_car.move(false);
 			}
+			return false;
 
 		}
-		this.TDH++;
+
 
 
 
@@ -101,6 +104,7 @@ public class Lane {
 		while(iter.hasNext()) {
 			Car car = (Car)iter.next();
 			if (c.absc >= car.leftPosition.absc && c.absc < car.leftPosition.absc+car.length) {
+				System.out.println("Car :"+car.leftPosition.absc+" "+(car.leftPosition.absc+car.length));
 				return false;
 			}
 		}
