@@ -95,16 +95,13 @@ public class Lane {
 
 	// TODO : ajout de methodes
 
-
-
-
 	public boolean Bsecurise(Case c) {
 		Iterator iter = this.cars.iterator();
 
 		while(iter.hasNext()) {
 			Car car = (Car)iter.next();
 			if (c.absc >= car.leftPosition.absc && c.absc < car.leftPosition.absc+car.length) {
-				System.out.println("Car :"+car.leftPosition.absc+" "+(car.leftPosition.absc+car.length));
+			//	System.out.println("Car :"+car.leftPosition.absc+" "+(car.leftPosition.absc+car.length));
 				return false;
 			}
 		}

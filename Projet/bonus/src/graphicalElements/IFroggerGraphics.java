@@ -1,6 +1,7 @@
 package graphicalElements;
 
 import gameCommons.IFrog;
+import gameCommons.IFrog_p2;
 
 public interface IFroggerGraphics {
 	
@@ -24,7 +25,7 @@ public interface IFroggerGraphics {
      * Lie la grenouille ? l'environneemnt graphique
      * @param frog
      */
-    public void setFrog(IFrog frog);
+    public void setFrog(IFrog frog, IFrog_p2 frog_p2);
     
     /**
      * Lance un ?cran de fin de partie

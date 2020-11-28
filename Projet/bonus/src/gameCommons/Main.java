@@ -2,6 +2,7 @@ package gameCommons;
 
 import environment.Environment;
 import frog.Frog;
+import frog.Frog_p2;
 import graphicalElements.FroggerGraphic;
 import graphicalElements.IFroggerGraphics;
 
@@ -26,8 +27,9 @@ public class Main {
 		Game game = new Game(graphic, width, height, minSpeedInTimerLoops, defaultDensity);
 		//Cr?ation et liason de la grenouille
 		IFrog frog = new Frog(game);
-		game.setFrog(frog);
-		graphic.setFrog(frog);
+		IFrog_p2 frog_p2 = new Frog_p2(game);
+		game.setFrog(frog, frog_p2);
+		graphic.setFrog(frog,frog_p2);
 		//Cr?ation et liaison de l'environnement
 		IEnvironment env = new Environment(game);
 		game.setEnvironment(env);

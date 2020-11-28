@@ -19,10 +19,12 @@ public class Game {
 	// Lien aux objets utilis?s
 	private IEnvironment environment;
 	private IFrog frog;
+	private IFrog_p2 frog_p2;
 	private IFroggerGraphics graphic;
 	private long startTime;
 	private int one_run = 0;
 	private int bonus = 0;
+	private int bonus_p2 = 0;
 
 	/**
 	 * 
@@ -52,8 +54,9 @@ public class Game {
 	 * 
 	 * @param frog
 	 */
-	public void setFrog(IFrog frog) {
+	public void setFrog(IFrog frog, IFrog_p2 frog_p2) {
 		this.frog = frog;
+		this.frog_p2 = frog_p2;
 	}
 
 	/**
@@ -81,11 +84,12 @@ public class Game {
 	 */
 	public boolean testLose() {
 		// TODO
-		if (!this.environment.isSafe(this.frog.getPosition())){
+		if (!this.environment.isSafe(this.frog.getPosition()) || !this.environment.isSafe(this.frog_p2.getPosition())){
 			this.one_run ++;
+
 		}
 
-		return !this.environment.isSafe(this.frog.getPosition());
+		return (!this.environment.isSafe(this.frog.getPosition())|| (!this.environment.isSafe(this.frog_p2.getPosition())));
 	}
 
 	/**
@@ -96,10 +100,10 @@ public class Game {
 	 */
 	public boolean testWin() {
 		// TODO
-		if (this.environment.isWinningPosition(this.frog.getPosition())){
+		if (this.environment.isWinningPosition(this.frog.getPosition())||this.environment.isWinningPosition(this.frog_p2.getPosition())){
 			this.one_run ++;
 		}
-		return this.environment.isWinningPosition(this.frog.getPosition());
+		return this.environment.isWinningPosition(this.frog.getPosition()) || this.environment.isWinningPosition(this.frog_p2.getPosition());
 
 
 	}
@@ -131,6 +135,10 @@ public class Game {
 			this.bonus++;
 			//System.out.println(bonus);
 		}
+		if (environment.getBonus(this.frog_p2.getPosition())){
+			this.bonus_p2++;
+			//System.out.println(bonus);
+		}
 		if (environment.isTerrains(this.frog.getPosition())){
 			int t_ord = this.frog.getPosition().ord;
 			int t_absc = this.frog.getPosition().absc;
@@ -153,6 +161,28 @@ public class Game {
 
 			this.frog.setPosition(new Case(t_absc,t_ord));
 		}
+		if (environment.isTerrains(this.frog_p2.getPosition())){
+			int t_ord = this.frog_p2.getPosition().ord;
+			int t_absc = this.frog_p2.getPosition().absc;
+			switch ( this.frog_p2.getDirection()){
+				case up:
+					t_ord++;
+					break;
+				case down:
+					t_ord--;
+					break;
+				case right:
+					t_absc++;
+					break;
+				case left:
+					t_absc--;
+					break;
+				default:
+					break;
+			}
+
+			this.frog_p2.setPosition(new Case(t_absc,t_ord));
+		}
 		if (environment.isMurs(this.frog.getPosition())){
 			int t_ord = this.frog.getPosition().ord;
 			int t_absc = this.frog.getPosition().absc;
@@ -174,29 +204,78 @@ public class Game {
 			}
 			this.frog.setPosition(new Case(t_absc,t_ord));
 		}
+		if (environment.isMurs(this.frog_p2.getPosition())){
+			int t_ord = this.frog_p2.getPosition().ord;
+			int t_absc = this.frog_p2.getPosition().absc;
+			switch ( this.frog_p2.getDirection()){
+				case up:
+					t_ord--;
+					break;
+				case down:
+					t_ord++;
+					break;
+				case right:
+					t_absc--;
+					break;
+				case left:
+					t_absc++;
+					break;
+				default:
+					break;
+			}
+			this.frog_p2.setPosition(new Case(t_absc,t_ord));
+		}
 		graphic.clear();
-		if (environment.update() && this.frog.getPosition().ord == 6){
-			int t_ord = this.frog.getPosition().ord;
-			int t_absc = this.frog.getPosition().absc+1;
-			this.frog.setPosition(new Case(t_absc,t_ord));
+
+		if (environment.update() ){
+			if (this.frog.getPosition().ord == 6){
+				int t_ord = this.frog.getPosition().ord;
+				int t_absc = this.frog.getPosition().absc+1;
+				this.frog.setPosition(new Case(t_absc,t_ord));
+			}
+			else if (this.frog_p2.getPosition().ord == 6){
+				int t_ord = this.frog_p2.getPosition().ord;
+				int t_absc = this.frog_p2.getPosition().absc+1;
+				this.frog_p2.setPosition(new Case(t_absc,t_ord));
+			}
 		}
 
 
+
 		this.graphic.add(new Element(frog.getPosition(), Color.GREEN));
+		this.graphic.add(new Element(frog_p2.getPosition(), Color.ORANGE));
 
 		if (testLose()){
 
 			if (this.one_run == 1){
+
+				int score_p1 = this.frog.getPosition().ord+this.bonus;
+				int score_p2 = this.frog_p2.getPosition().ord+this.bonus_p2;
 				long endTime = System.currentTimeMillis();
-				String res = "Lose"+ calTemp(endTime - startTime) +"   "+"Score : "+(this.environment.getScore()+this.bonus);
+				String res;
+				if (score_p1 > score_p2){
+					res = "P1 Win"+ calTemp(endTime - startTime) +"   "+"Score : "+score_p1;
+				}else if (score_p1 < score_p2){
+					res = "P2 Win"+ calTemp(endTime - startTime) +"   "+"Score : "+score_p2;
+				}else {
+					res ="TIE"+ calTemp(endTime - startTime) +"   "+"Score : "+score_p1;
+				}
+
 				graphic.endGameScreen(res);
 			}
 
 		}else if (testWin()){
 
 			if (this.one_run == 1){
+				int score_p1 = this.frog.getPosition().ord+this.bonus;
+				int score_p2 = this.frog_p2.getPosition().ord+this.bonus_p2;
+				String res;
 				long endTime = System.currentTimeMillis();
-				String res = "Win"+ calTemp(endTime - startTime) +"   "+"Score : "+(this.environment.getScore()+this.bonus);
+				if (score_p1 > score_p2){
+					res = "P1 Win"+ calTemp(endTime - startTime) +"   "+"Score : "+score_p1;
+				}else{
+					res = "P2 Win"+ calTemp(endTime - startTime) +"   "+"Score : "+score_p2;
+				}
 				graphic.endGameScreen(res);
 			}
 		}

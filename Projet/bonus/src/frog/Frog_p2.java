@@ -1,19 +1,16 @@
 package frog;
 
-import gameCommons.Case;
-import gameCommons.Direction;
-import gameCommons.Game;
-import gameCommons.IFrog;
+import gameCommons.*;
 
-public class Frog implements IFrog {
-	
+public class Frog_p2 implements IFrog_p2 {
+
 	private Game game;
 	private Case m_case;
 	private Direction m_Direction;
-	public Frog(Game game){
+	public Frog_p2(Game game){
 
 		this.game = game;
-		m_case= new Case(this.game.width/3,0);
+		m_case= new Case(2*this.game.width/3,0);
 	}
 	/**
 	 * Donne la position actuelle de la grenouille
