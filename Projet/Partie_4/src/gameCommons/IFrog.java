@@ -19,5 +19,6 @@ public interface IFrog {
 	 * @param key
 	 */
 	public void move(Direction key);
+	public void setPosition(Case c);
 
 }

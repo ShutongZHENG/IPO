@@ -23,7 +23,9 @@ public class Frog implements IFrog {
 
 			return  this.m_case;
 	}
-
+	public void setPosition(Case c){
+		this.m_case =c;
+	}
 	/**
 	 * Donne la direction de la grenouille, c'est à dire de son dernier mouvement
 	 * @return la direction Direction

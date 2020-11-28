@@ -25,4 +25,10 @@ public interface IEnvironment {
 	 */
 	public void update();
 
+	public boolean getBonus(Case c);
+	public int getScore();
+	public boolean isMurs(Case c);
+
+	public boolean isTerrains(Case c);
+
 }

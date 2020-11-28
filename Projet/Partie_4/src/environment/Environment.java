@@ -12,7 +12,8 @@ public class Environment implements IEnvironment {
 	//TODO
     private ArrayList<Lane>  m_Lane = new ArrayList<Lane>();
     private Game game;
-
+    private Cases_speciales cs;
+    private int score;
     public Environment(Game game){
         this.game = game;
         Lane t_lane = new Lane(game,0,0.0);
@@ -24,6 +25,8 @@ public class Environment implements IEnvironment {
         }
         t_lane = new Lane(game,game.height-1,0.0);
         this.m_Lane.add(t_lane);
+        this.cs = new Cases_speciales(this.game);
+        this.score=0;
 
     }
     /**
@@ -36,7 +39,12 @@ public class Environment implements IEnvironment {
      */
     public boolean isSafe(Case c){
 
-        return (this.m_Lane.get(c.ord)).Bsecurise(c);
+        if (this.cs.Bsecurise(c) && (this.m_Lane.get(c.ord)).Bsecurise(c)){
+            if (c.ord > this.score )
+            this.score = c.ord;
+        }
+        return this.cs.Bsecurise(c) && (this.m_Lane.get(c.ord)).Bsecurise(c);
+
     }
 
     /**
@@ -48,17 +56,22 @@ public class Environment implements IEnvironment {
     public boolean isWinningPosition(Case c){
 
         if (c.ord == this.game.height-1){
+            this.score = c.ord;
             return true;
         }else{
             return false;
         }
     }
 
+    public boolean getBonus(Case c){
+        return this.cs.getBonus(c);
+    }
+
     /**
      * Effectue une étape d'actualisation de l'environnement
      */
     public void update(){
-
+        this.cs.update();
         Iterator iter = this.m_Lane.iterator();
 
         while(iter.hasNext()) {
@@ -71,7 +84,16 @@ public class Environment implements IEnvironment {
     }
 
 
+    public int getScore(){
+        return this.score;
+    }
 
+    public boolean isMurs(Case c){
+        return this.cs.isMur(c);
+    }
 
+    public boolean isTerrains(Case c){
+        return this.cs.isTerrains(c);
+    }
 
 }

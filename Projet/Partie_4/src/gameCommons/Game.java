@@ -22,6 +22,7 @@ public class Game {
 	private IFroggerGraphics graphic;
 	private long startTime;
 	private int one_run = 0;
+	private int bonus = 0;
 
 	/**
 	 * 
@@ -43,7 +44,7 @@ public class Game {
 		this.height = height;
 		this.minSpeedInTimerLoops = minSpeedInTimerLoop;
 		this.defaultDensity = defaultDensity;
-		startTime = System.currentTimeMillis(); //??????
+		startTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -81,7 +82,7 @@ public class Game {
 	public boolean testLose() {
 		// TODO
 		if (!this.environment.isSafe(this.frog.getPosition())){
-			System.out.println("Lose");
+			//System.out.println("Lose");
 			this.one_run ++;
 		}
 
@@ -97,7 +98,7 @@ public class Game {
 	public boolean testWin() {
 		// TODO
 		if (this.environment.isWinningPosition(this.frog.getPosition())){
-			System.out.println("Win");
+			//System.out.println("Win");
 			this.one_run ++;
 		}
 		return this.environment.isWinningPosition(this.frog.getPosition());
@@ -116,7 +117,7 @@ public class Game {
 				final long ms = TimeUnit.MILLISECONDS.toMillis(milliseconds)
 						- TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(milliseconds));
 				String res;
-				res = "    Time   "+hours+" : "+minutes+" : "+seconds;
+				res = "  Time   "+hours+" : "+minutes+" : "+seconds;
 				return res;
 
 
@@ -127,8 +128,58 @@ public class Game {
 	 * partie.
 	 */
 	public void update() {
+
+		if (environment.getBonus(this.frog.getPosition())){
+			this.bonus++;
+			//System.out.println(bonus);
+		}
+		if (environment.isTerrains(this.frog.getPosition())){
+			int t_ord = this.frog.getPosition().ord;
+			int t_absc = this.frog.getPosition().absc;
+			switch ( this.frog.getDirection()){
+				case up:
+					t_ord++;
+					break;
+				case down:
+					t_ord--;
+					break;
+				case right:
+					t_absc++;
+					break;
+				case left:
+					t_absc--;
+					break;
+				default:
+					break;
+			}
+
+			this.frog.setPosition(new Case(t_absc,t_ord));
+		}
+		if (environment.isMurs(this.frog.getPosition())){
+			int t_ord = this.frog.getPosition().ord;
+			int t_absc = this.frog.getPosition().absc;
+			switch ( this.frog.getDirection()){
+				case up:
+					t_ord--;
+					break;
+				case down:
+					t_ord++;
+					break;
+				case right:
+					t_absc--;
+					break;
+				case left:
+					t_absc++;
+					break;
+				default:
+					break;
+			}
+			this.frog.setPosition(new Case(t_absc,t_ord));
+		}
 		graphic.clear();
 		environment.update();
+
+
 		this.graphic.add(new Element(frog.getPosition(), Color.GREEN));
 
 
@@ -139,16 +190,16 @@ public class Game {
 
 			if (this.one_run == 1){
 				long endTime = System.currentTimeMillis();
-
-				graphic.endGameScreen("Lose   "+ calTemp(endTime - startTime));
+				String res = "Lose"+ calTemp(endTime - startTime) +"   "+"Score : "+(this.environment.getScore()+this.bonus);
+				graphic.endGameScreen(res);
 			}
 
 		}else if (testWin()){
 
 			if (this.one_run == 1){
 				long endTime = System.currentTimeMillis();
-
-				graphic.endGameScreen("Win   "+ calTemp(endTime - startTime));
+				String res = "Win"+ calTemp(endTime - startTime) +"   "+"Score : "+(this.environment.getScore()+this.bonus);
+				graphic.endGameScreen(res);
 			}
 		}
 
